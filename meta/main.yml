@@ -1,0 +1,21 @@
+galaxy_info:
+  author: Companies House
+  description: Install Elasticsearch with a default configuration
+  license: MIT
+  min_ansible_version: 2.9.10
+  platforms:
+    - name: EL
+      versions:
+        - 7
+        - 8
+  galaxy_tags:
+    - elasticsearch
+
+dependencies:
+  - src: https://github.com/geerlingguy/ansible-role-pip
+    name: pip
+    version: 2.0.0
+
+  - src: https://github.com/geerlingguy/ansible-role-repo-epel
+    name: epel
+    version: 3.0.0
