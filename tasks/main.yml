@@ -1,0 +1,38 @@
+---
+
+- name: Create temporary directory
+  tempfile:
+    state: directory
+  register: temp_dir
+
+- name: Download Elasticsearch rpm {{ resource_bucket_elasticsearch_prefix }}/elasticsearch-{{ elasticsearch_version }}-x86_64.rpm
+  aws_s3:
+    bucket: "{{ resource_bucket_name }}"
+    object: "{{ resource_bucket_elasticsearch_prefix }}/elasticsearch-{{ elasticsearch_version }}-x86_64.rpm"
+    dest: "{{ temp_dir.path }}/elasticsearch-{{ elasticsearch_version }}-x86_64.rpm"
+    mode: get
+
+- name: Install rpm {{ temp_dir.path }}/elasticsearch-{{ elasticsearch_version }}-x86_64.rpm
+  yum:
+    name: "{{ temp_dir.path }}/elasticsearch-{{ elasticsearch_version }}-x86_64.rpm"
+    state: present
+
+- name: Stop the elasticsearch service
+  service:
+    name: elasticsearch
+    state: stopped
+
+- name: Disable the elasticsearch service
+  service:
+    name: elasticsearch
+    enabled: no
+
+- name: Install plugins
+  shell: "{{ elasticsearch_home_directory }}/bin/elasticsearch-plugin install -b {{ item }}"
+  become: yes
+  loop: "{{ plugins }}"
+
+- name: Remove temporary directory
+  file:
+    path: temp_dir.path
+    state: absent
