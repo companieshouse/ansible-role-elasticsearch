@@ -1,5 +1,7 @@
 ---
 
+python_interpreter: /usr/bin/python3
+
 elasticsearch_data_directory: /var/lib/elasticsearch
 elasticsearch_home_directory: /usr/share/elasticsearch
 elasticsearch_service_group: elasticsearch
