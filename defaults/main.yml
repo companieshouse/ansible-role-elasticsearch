@@ -12,4 +12,5 @@ pip_install_packages:
   - name: boto3
   - name: botocore
 
-plugins: []
+plugins:
+  - https://github.com/vvanholl/elasticsearch-prometheus-exporter/releases/download/7.10.1.0/prometheus-exporter-7.10.1.0.zip
